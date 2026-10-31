@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FullViewer</string>
+    <string name="app_tagline">URLを入力して全画面でWebページを表示</string>
+    <string name="url_hint">https://example.com</string>
+    <string name="open_button">開く</string>
+    <string name="url_empty">URLを入力してください</string>
+    <string name="load_error">読み込みに失敗しました</string>
+</resources>

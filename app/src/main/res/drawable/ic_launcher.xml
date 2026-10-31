@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- 背景 -->
+    <path
+        android:fillColor="#7C6CFA"
+        android:pathData="M54,0 L54,0 A54,54 0 0 1 54,108 L54,108 A54,54 0 0 1 54,0 Z" />
+
+    <!-- 全画面フレーム（四隅のブラケット） -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M28,28 L44,28 L44,33 L33,33 L33,44 L28,44 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M80,28 L64,28 L64,33 L75,33 L75,44 L80,44 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M28,80 L44,80 L44,75 L33,75 L33,64 L28,64 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M80,80 L64,80 L64,75 L75,75 L75,64 L80,64 Z" />
+
+    <!-- 中央のURLバー -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,51 a4,4 0 0 0 -4,4 a4,4 0 0 0 4,4 L72,59 a4,4 0 0 0 4,-4 a4,4 0 0 0 -4,-4 Z" />
+</vector>
