@@ -13,6 +13,7 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
+import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
@@ -48,6 +49,7 @@ class MainActivity : Activity() {
         errorText = findViewById(R.id.errorText)
 
         setupWebView()
+        restoreLastUrl()
 
         openButton.setOnClickListener { openFromInput() }
         urlInput.setOnEditorActionListener { _, actionId, _ ->
@@ -89,6 +91,11 @@ class MainActivity : Activity() {
                 }
             }
 
+            override fun onPageFinished(view: WebView, url: String) {
+                // 手動入力時のキャッシュ無効化を解除し、以降の遷移では通常のキャッシュを使う
+                view.settings.cacheMode = WebSettings.LOAD_DEFAULT
+            }
+
             override fun onReceivedError(
                 view: WebView,
                 request: WebResourceRequest,
@@ -123,7 +130,26 @@ class MainActivity : Activity() {
             urlInput.error = getString(R.string.url_empty)
             return
         }
-        loadUrl(normalizeUrl(raw))
+        val url = normalizeUrl(raw)
+        saveLastUrl(url)
+        loadUrl(url)
+    }
+
+    /** 最後に入力したURLを復元する */
+    private fun restoreLastUrl() {
+        val lastUrl = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+            .getString(KEY_LAST_URL, null)
+        if (!lastUrl.isNullOrBlank()) {
+            urlInput.setText(lastUrl)
+            urlInput.setSelection(lastUrl.length)
+        }
+    }
+
+    private fun saveLastUrl(url: String) {
+        getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+            .edit()
+            .putString(KEY_LAST_URL, url)
+            .apply()
     }
 
     private fun normalizeUrl(raw: String): String =
@@ -137,6 +163,9 @@ class MainActivity : Activity() {
         errorText.visibility = View.GONE
         inputScreen.visibility = View.GONE
         webView.visibility = View.VISIBLE
+        // キャッシュが原因で最初のページが古い内容になるのを防ぐ
+        webView.settings.cacheMode = WebSettings.LOAD_NO_CACHE
+        webView.clearCache(true)
         webView.loadUrl(url)
         viewing = true
         enterImmersive()
@@ -222,5 +251,10 @@ class MainActivity : Activity() {
     override fun onDestroy() {
         webView.destroy()
         super.onDestroy()
+    }
+
+    companion object {
+        private const val PREFS_NAME = "fullviewer"
+        private const val KEY_LAST_URL = "last_url"
     }
 }
